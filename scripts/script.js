@@ -8,10 +8,10 @@ const mainFunction = () => {
 
 	if (!checkResult[0]) {
 		resultArea.style.color = 'red'; // result area color
-		resultArea.innerHTML = checkResult[1]; // write result in result area
+		resultArea.innerHTML = `>> ${checkResult[1]}`; // write result in result area
 	} else {
 		resultArea.style.color = 'green'; // result area color
-		resultArea.innerHTML = checkResult[1]; // write result in result area
+		resultArea.innerHTML = `>> ${checkResult[1]}`; // write result in result area
 	}
 };
 
@@ -24,19 +24,24 @@ const checkFunction = (x, y) => {
 	} else if (x == '' || y == '') {
 		result = [false, 'Enter data in inputs.']; // invalid data
 	} else if (x && y) {
-		// loop for x finding
-		while (x !== y) {
-			if (x > y) {
-				x = x - y; // x - y (subtraction)
+		if (x === 0 || y === 0) {
+			result = [false, 'Numbers should not be zero.'];
+		} else {
+			// loop for x finding
+			countOfIterations = 0;
+			while (x !== y) {
+				if (countOfIterations >= 1000) {
+					break;
+				}
+				if (x > y) {
+					x = x - y; // x - y (subtraction)
+				} else {
+					x = y - x; // y - x (subtraction)
+				}
+				countOfIterations++;
 			}
-			// if x > y is not true => do next conditional
-
-			if (x < y) {
-				x = y - x; // y - x (subtraction)
-			}
-			// if x < y is not true => do loop again
+			result = [true, `Result equals ${x} by ${countOfIterations} steps.`]; // valid data
 		}
-		result = [true, `Result equals ${x}`]; // valid data
 	}
 
 	return result; // return result to main function
